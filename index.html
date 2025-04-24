@@ -72,6 +72,42 @@
       0% { transform: translateY(0) rotate(0deg); opacity: 1; }
       100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
     }
+
+        
+    #popup {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    
+    .popup-content {
+      background: #fff0f6;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    
+    .popup-content h2 {
+      color: #cc0066;
+      margin-bottom: 10px;
+    }
+    
+    .popup-content button {
+      margin-top: 20px;
+      background: #ff66a3;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
   </style>
 </head>
 <body>
@@ -83,8 +119,17 @@
     <button id="noBtn">Ngga dulu, maaf 😢</button>
   </div>
 
-  <div id="result"></div>
+  <!-- Tambahkan ini di dalam <body> setelah tombol -->
+  <div id="popup" style="display: none;">
+    <div class="popup-content">
+      <h2>💞 Selamat! 💞</h2>
+      <p id="popupText"></p>
+      <button onclick="closePopup()">Tutup</button>
+    </div>
+  </div>
 
+  <div id="result"></div>
+  
   <script>
     const yesBtn = document.getElementById('yesBtn');
     const noBtn = document.getElementById('noBtn');
@@ -96,6 +141,7 @@
       yesBtn.style.fontSize = size + "px";
     });
 
+        // Ganti bagian yesBtn.addEventListener jadi:
     yesBtn.addEventListener('click', () => {
       const today = new Date();
       const tgl = today.toLocaleDateString('id-ID', {
@@ -103,10 +149,15 @@
         month: 'long',
         year: 'numeric'
       });
-      result.textContent = `Yeaaay! resmi jadian yaa ${tgl} 💞💘`;
-      result.style.opacity = 1;
+      document.getElementById("popupText").textContent = `Yeaaay! Kita resmi jadian tanggal ${tgl} 💞💘`;
+      document.getElementById("popup").style.display = "flex";
       generateHearts();
     });
+    
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+      window.close(); // untuk menutup halaman jika diizinkan browser
+    }
 
     function generateHearts() {
       for (let i = 0; i < 30; i++) {
